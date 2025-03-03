@@ -1,15 +1,11 @@
 Checkpoint 0 Writeup
 ====================
 
-My name: [your name here]
+My name: FanR
 
-My SUNet ID: [your sunetid here]
+I collaborated with: **GPT Translation**
 
-I collaborated with: [list sunetids here]
-
-I would like to credit/thank these classmates for their help: [list sunetids here]
-
-This lab took me about [n] hours to do. I [did/did not] attend the lab session.
+This lab took me about [1] hours to do. I [did/did not] attend the lab session.
 
 My secret code from section 2.1 was: [code here]
 
@@ -24,6 +20,8 @@ implementation time and difficulty, and other factors. Include any
 measurements if applicable.]
 
 - Optional: I had unexpected difficulty with: [describe]
+在ubuntu22编译gcc与g++，用ppa很慢所以手动编译了
+还有一个是学校上的c++屁用没有，面对这种小项目都有点犯晕
 
 - Optional: I think you could make this lab better by: [describe]
 
