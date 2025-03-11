@@ -27,7 +27,7 @@ protected:
   uint64_t capacity_; 
   bool error_ {};
   bool isClosed;
-  std::queue<char> fifo;
+  std::string buffer;
   uint64_t pushed;
   uint64_t removed;
 };

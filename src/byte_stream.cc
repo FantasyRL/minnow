@@ -5,7 +5,7 @@ using namespace std;
 ByteStream::ByteStream( uint64_t capacity ) : 
 capacity_( capacity ),
 isClosed(false),
-fifo(),
+buffer(),
 pushed(0),
 removed(0) {}// 这里还要按顺序来初始化
 
@@ -14,10 +14,10 @@ void Writer::push( string data )
   for (char c : data)
   {
     if(!isClosed&& available_capacity()!=0){
-      fifo.push(c);// 在当前容量范围内推入流
+      buffer.push_back(c);// 在当前容量范围内推入流
       pushed++;
     }else{
-      break;
+      return;
     } 
   }
 }
@@ -34,7 +34,7 @@ bool Writer::is_closed() const
 
 uint64_t Writer::available_capacity() const
 {
-  return capacity_ - fifo.size();
+  return capacity_ - buffer.size();
 }
 
 uint64_t Writer::bytes_pushed() const
@@ -46,30 +46,30 @@ uint64_t Writer::bytes_pushed() const
 
 string_view Reader::peek() const
 {
-    if (fifo.empty()) {
+    if (buffer.empty()) {
         return {}; // 返回空的 string_view
     }
-    return {&fifo.front(), fifo.size()}; // 返回整个缓冲区的视图
+    return buffer; // 返回整个缓冲区的视图
 }
 
 
 void Reader::pop( uint64_t len )
 {
-  (void)len; // Your code here.
-  while(len--){
-    fifo.pop();
-    removed++;
-  }
+  uint64_t actual_len = ( len > buffer.size() ) ? buffer.size() : len;
+
+  // 移除 buffer_ 前 actual_len 个字符
+  buffer.erase( 0, actual_len );
+  removed += actual_len;
 }
 
 bool Reader::is_finished() const
 {
-  return (isClosed && fifo.empty()) ? true : false;// 当关闭通道并且读取完毕缓冲区时就标记为finish
+  return isClosed && buffer.empty();// 当关闭通道并且读取完毕缓冲区时就标记为finish
 }
 
 uint64_t Reader::bytes_buffered() const
 {
-  return fifo.size();
+  return buffer.size();
 }
 
 uint64_t Reader::bytes_popped() const
