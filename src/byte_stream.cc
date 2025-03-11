@@ -11,16 +11,27 @@ removed(0) {}// 这里还要按顺序来初始化
 
 void Writer::push( string data )
 {
-  for (char c : data)
-  {
-    if(!isClosed&& available_capacity()!=0){
-      buffer.push_back(c);// 在当前容量范围内推入流
-      pushed++;
-    }else{
-      return;
-    } 
+  
+
+  // for (char c : data)
+  // {
+  //   if(!isClosed&& available_capacity()!=0){
+  //     buffer.push_back(c);// 在当前容量范围内推入流
+  //     pushed++;
+  //   }else{
+  //     return;
+  //   } 
+  // }
+
+  if (isClosed||available_capacity()==0) {
+    return;
   }
+  
+  uint64_t wc=min(available_capacity(),data.size());
+  buffer.append(data.data(),wc);
+  pushed+=wc;
 }
+
 
 void Writer::close()
 {
